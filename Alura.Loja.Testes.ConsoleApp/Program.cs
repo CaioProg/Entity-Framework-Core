@@ -11,7 +11,23 @@ namespace Alura.Loja.Testes.ConsoleApp
         static void Main(string[] args)
         {
             //GravarUsandoAdoNet();
-            GravarUsandoEntity();
+            //GravarUsandoEntity();
+            RecuperarProdutos();
+			Console.ReadKey();
+		}
+
+		private static void RecuperarProdutos()
+		{
+
+
+			using (var repo = new LojaContext())
+			{
+				IList<Produto> produtos = repo.Produtos.ToList();
+				foreach (var item in produtos)
+				{
+					Console.WriteLine(item.Nome);
+				}
+			}
 		}
 
 		private static void GravarUsandoEntity()
@@ -21,9 +37,10 @@ namespace Alura.Loja.Testes.ConsoleApp
 			p.Categoria = "Livros";
 			p.Preco = 19.89;
 
-			using (var repo = new ProdutoDAO())
+			using (var contexto = new LojaContext())
 			{
-				repo.Adicionar(p);
+				contexto.Produtos.Add(p);
+                contexto.SaveChanges();
 			}
 		}
 
